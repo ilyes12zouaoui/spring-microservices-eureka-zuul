@@ -25,12 +25,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/clients")
 public class ClientRestAPI {
 	private String title = "Hello, I'm the client Microserviceeeee";
-	
+
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
 	PromoServiceProxy proxy;
-	
+
 	@Autowired
 	private ClientService clientService;
 
@@ -42,21 +42,16 @@ public class ClientRestAPI {
 
 	@GetMapping
 	public List<Client> findClients() {
-		
-		
 		List<Client> Clients = (List<Client>) clientService.findAll();
 		return Clients;
 	}
 
 	@GetMapping("/fromPromos")
-	public List<Client> findClientsFromPromos() {
-		
+	public List<Promo> findClientsFromPromos() {
 		List<Promo> response = proxy.retrievePromos();
 		logger.info("{}", response);
-	
-		
 		List<Client> Clients = (List<Client>) clientService.findAll();
-		return Clients;
+		return response;
 	}
 
 	@PostMapping
